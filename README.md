@@ -1,2 +1,2 @@
 # leetcode
-code for leetcode
+Java version code for leetcode
