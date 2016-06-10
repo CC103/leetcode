@@ -11,6 +11,7 @@ public:
 		}
 		int low;
 		int high;
+		
 		while (x != 0){
 			low = x % 10;
 			high = x / times;
