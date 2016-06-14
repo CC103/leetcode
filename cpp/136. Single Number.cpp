@@ -25,3 +25,17 @@ public:
 		return 0;
 	}
 };
+/*
+//使用异或的方法，发现通过测例的速度没有提升，说明位运算是很耗时的
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        int result = 0;
+        for(int n:nums){
+            result ^= n;
+        }
+        return result;
+
+    }
+};
+*/
