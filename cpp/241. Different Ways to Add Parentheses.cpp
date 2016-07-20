@@ -3,7 +3,8 @@
 #include <vector>
 #include <string>
 using namespace std;
-// NOT WORK YET
+//The answer set is right but some elements are repeated more than right times
+//eg: expected ans[1,2,3,4,4]; my ans[1,1,2,4,4]
 class Solution {
 public:
     vector<int> diffWaysToCompute(string input) {
@@ -29,7 +30,7 @@ public:
      	 }
      	 //test the division
      	 // for(int i = 0; i < vecOp.size(); i++){
-     	 // 	cout << vecOp[i] << "||";
+     	 // 	cout << vecOp[i] << "  ";
      	 // }
      	 recurCal(vecOp, ret);
      	 return ret;
@@ -89,9 +90,15 @@ public:
     			stringstream ss;
     			ss << tmp;
     			ss >> stmp;
-    			vtmp.erase(vtmp.begin() + i - 1);
-    			vtmp.erase(vtmp.begin() + i + 1);
     			vtmp[i] = stmp;
+    			vtmp.erase(vtmp.begin() + i - 1);
+    			//The size has changed now, so erase begin() + i not i + 1
+    			vtmp.erase(vtmp.begin() + i);
+    //          log the new input 
+    // 			for(int j = 0; j < vtmp.size(); j++){
+    // 				cout << vtmp[j];
+    // 			}
+    // 			cout << endl;
     			recurCal(vtmp, ret);
     		}
     	}
