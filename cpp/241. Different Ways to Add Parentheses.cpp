@@ -3,104 +3,37 @@
 #include <vector>
 #include <string>
 using namespace std;
-//The answer set is right but some elements are repeated more than right times
-//eg: expected ans[1,2,3,4,4]; my ans[1,1,2,4,4]
+
 class Solution {
 public:
     vector<int> diffWaysToCompute(string input) {
-     	 vector<string> vecOp;
-     	 vector<int> ret;
-     	 string tmp = "";
-     	 for(int i = 0; i < input.size(); i++){
-     	 	if(input[i] == '+' || input[i] == '-' || input[i] == '*'){
-     	 		if(!tmp.empty()){
-     	 			vecOp.push_back(tmp);
-     	 			tmp = "";
-     	 		}
-     	 		string s;
-     	 		s.push_back(input[i]);
-     	 		vecOp.push_back(s);
-     	 	}
-     	 	else{
-     	 		tmp += input[i];
-     	 	}
-     	 }
-     	 if(!tmp.empty()){
-     	 	vecOp.push_back(tmp);
-     	 }
-     	 //test the division
-     	 // for(int i = 0; i < vecOp.size(); i++){
-     	 // 	cout << vecOp[i] << "  ";
-     	 // }
-     	 recurCal(vecOp, ret);
-     	 return ret;
-    }
-    void recurCal(vector<string> vecOp, vector<int> &ret){
-    	int size = vecOp.size();
-    	if(size == 0)
-    		return;
-    	if(size == 1){
-    		int tmp = atoi(vecOp[0].c_str());
-    		ret.push_back(tmp);
-    		return;
-    	}
-    	if(size == 2){
-    		if(vecOp[0] == "+"){
-    			int tmp = atoi(vecOp[1].c_str());
-    			ret.push_back(tmp);
-    			return;
-    		}
-    		if(vecOp[0] == "-"){
-    			int tmp = (-1) * atoi(vecOp[0].c_str());
-    			ret.push_back(tmp);
-    			return;
-    		}
-    		return;
-    	}
-    	if(size == 3){
-    		if(vecOp[1] == "+"){
-    			int tmp = atoi(vecOp[0].c_str()) + atoi(vecOp[2].c_str());
-    			ret.push_back(tmp);
-    		}
-    		if(vecOp[1] == "-"){
-    			int tmp = atoi(vecOp[0].c_str()) - atoi(vecOp[2].c_str());
-    			ret.push_back(tmp);
-    		}
-    		if(vecOp[1] == "*"){
-    			int tmp = atoi(vecOp[0].c_str()) * atoi(vecOp[2].c_str());
-    			ret.push_back(tmp);
-    		}
-    		return;
-    	}
-    	//Find all possible position to add parentheses
+    	vector<int> ret;
+    	int size = input.size();
     	for(int i = 0; i < size; i++){
-    		if(i % 2 == 1){
-    			vector<string> vtmp = vecOp;
-    			int tmp;
-    			string stmp;
-    			if(vecOp[i] == "+"){
-    				tmp = atoi(vecOp[i - 1].c_str()) + atoi(vecOp[i + 1].c_str());
+    		char c = input[i];
+    		if(c == '+' || c == '-' || c == '*'){
+    			//Split the input into two parts and solve then recursively
+    			vector<int> ret1 = diffWaysToCompute(input.substr(0, i));
+    			vector<int> ret2 = diffWaysToCompute(input.substr(i + 1));
+    			for(auto item1 : ret1){
+    				for(auto item2 : ret2){
+    					if(c == '+')
+    						ret.push_back(item1 + item2);
+    					if(c == '-')
+    						ret.push_back(item1 - item2);
+    					if(c == '*')
+    						ret.push_back(item1 * item2);
+    				}
     			}
-    			if(vecOp[i] == "-"){
-    				tmp = atoi(vecOp[i - 1].c_str()) - atoi(vecOp[i + 1].c_str());
-    			}
-    			if(vecOp[i] == "*"){
-    				tmp = atoi(vecOp[i - 1].c_str()) * atoi(vecOp[i + 1].c_str());
-    			}
-    			stringstream ss;
-    			ss << tmp;
-    			ss >> stmp;
-    			vtmp[i] = stmp;
-    			vtmp.erase(vtmp.begin() + i - 1);
-    			//The size has changed now, so erase begin() + i not i + 1
-    			vtmp.erase(vtmp.begin() + i);
-    //          log the new input 
-    // 			for(int j = 0; j < vtmp.size(); j++){
-    // 				cout << vtmp[j];
-    // 			}
-    // 			cout << endl;
-    			recurCal(vtmp, ret);
     		}
     	}
+    	//If the input is a number without operators, turn it to Int and push back
+    	if(ret.empty()){
+    		ret.push_back(atoi(input.c_str()));
+    	}
+    	//Sort the vector 
+    	sort(ret.begin(), ret.end());
+    	return ret;
+  
     }
 };
