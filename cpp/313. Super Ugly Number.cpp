@@ -20,7 +20,7 @@ public:
                 for(int j = 0; j < primes.size(); j++){
                     //if tmp == 1, it means i is product of numbers which are all in "primes"
                     if(tmp == 1){
-                        ret.push_back(i);
+                        num++;
                         flag = 0;
                         break;
                     }
