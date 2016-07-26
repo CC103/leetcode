@@ -8,10 +8,10 @@ class Solution {
 public:
     int nthSuperUglyNumber(int n, vector<int>& primes) {
         int size = primes.size();
-        vector<int> ret;
+        int num = 0;
         int i = 1;
         //loop until find the nth super ugly number
-        while(ret.size() < n){
+        while(num < n){
             int tmp = i;
             bool flag = true;
             //loop until we can determine if i is a super ugly number
@@ -34,6 +34,6 @@ public:
             }
             i++;
         }
-        return ret[n - 1];
+        return i - 1;
     }
 };
