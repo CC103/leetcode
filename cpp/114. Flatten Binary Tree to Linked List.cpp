@@ -10,16 +10,19 @@
 class Solution {
 public:
     void flatten(TreeNode* root) {
+        if(root == NULL)
+            return;
         vector<int> arr;
         dfSearch(root, arr);
-        TreeNode* last = new TreeNode(0);
-        TreeNode* head = last;
+        TreeNode* cur = new TreeNode(0);
+        TreeNode* head = cur;
         for(int i : arr){
-        	TreeNode node(i);
-        	last->next = &node;
-        	last = last->next; 
+            cur->right = new TreeNode(i);
+            cur->left = NULL;
+            cur = cur->right;
         }
-        root = head->next;
+        root = (head->right);
+        cout << endl;
     }
     void dfSearch(TreeNode* root, vector<int> &arr){
     	arr.push_back(root->val);
