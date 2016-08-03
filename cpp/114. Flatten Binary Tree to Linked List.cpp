@@ -21,7 +21,7 @@ public:
             cur->left = NULL;
             cur = cur->right;
         }
-        root = (head->right);
+        *root = *(head->right);
         cout << endl;
     }
     void dfSearch(TreeNode* root, vector<int> &arr){
