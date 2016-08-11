@@ -1,26 +1,15 @@
 class Solution {
 public:
     int combinationSum4(vector<int>& nums, int target) {
-        int comNums = 0, sum = 0;
-        sort(nums.begin(), nums.end());
-        gen(comNums, sum, nums, target);
-        return comNums;
-          
-    }
-    void gen(int &comNums, int &sum, vector<int> &nums, int &target){
-        for(int i : nums){
-            sum += i;
-            if(sum > target){
-                sum -= i;
-                return;
+        vector<int> res(target + 1, 0);
+        res[0] = 1;
+        for(int i = 1; i <= target; i++){
+            for(int j : nums){
+                if(i >= j)
+                    //res[i - j]种情况每个加j得到i
+                    res[i] += res[i - j];
             }
-            else if(sum == target){
-                comNums++;
-                sum -= i;
-                return;
-            }
-            gen(comNums, sum, nums, target);
-            sum -= i;
         }
+        return res[target];
     }
 };
