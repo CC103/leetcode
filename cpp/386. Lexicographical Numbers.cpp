@@ -1,37 +1,20 @@
 class Solution {
 public:
     vector<int> lexicalOrder(int n) {
-        stack<int> s;
         vector<int> ret;
-        for(int i = 1; i < 10; i++){
-            s.push(i);
-            generate(ret, s, n);
-            s.pop();
+        int i = 1;
+        for(int j = 0; j < n; j++){
+            ret.push_back(i);
+            if(i * 10 <= n)
+                i *= 10;
+            else if(i % 10 != 9 && i + 1 <= n)
+                i++;
+            else{
+                while((i / 10) % 10 == 9)
+                    i /= 10;
+                i = i / 10 + 1;
+            }
         }
         return ret;
-    }
-
-    void generate(vector<int> &ret, stack<int> &s, int n){
-        int num = turnStacktoInt(s);
-        if(num > n)
-            return;
-        ret.push_back(num);
-        for(int i = 0; i < 10; i++){
-            s.push(i);
-            generate(ret, s, n);
-            s.pop();
-        }
-        return;
-    }
-
-    int turnStacktoInt(stack<int> s){
-        int i = 0;
-        int r = 1;
-        while(!s.empty()){
-            i += r * s.top();
-            s.pop();
-            r *= 10;
-        }
-        return i;
     }
 };
