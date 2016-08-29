@@ -1,68 +1,41 @@
 class Solution {
 public:
     int calculate(string s) {
-        stringstream ss;
-        vector<char> oper;
-        vector<int> num;
-        int size = s.size();
-        for(int i = 0; i < size;){
-            if(s[i] == ' ')
-                s.erase(s.begin() + i);
-            else
-                i++;
-        }
-        int last = 0;
-        for(int i = 0; i < size; i++){
-            if(s[i] == '+' || s[i] == '-' || s[i] == '*' || s[i] == '/'){
-                oper.push_back(s[i]);
-                int temp;
-                ss << s.substr(last, i - last);
-                ss >> temp;
-                num.push_back(temp);
-                ss.clear();
-                ss.str("");
-                last = i + 1;
-            }     
-        }
-        int temp;
-        ss << s.substr(last);
-        ss >> temp;
-        num.push_back(temp);
-        for(auto o : oper){
-            cout << o << " ";
-        }
-        cout << endl;
-        for(auto i : num){
-            cout << i <<" ";
-        }
-        for(int i = 0; i < oper.size();){
-            if(oper[i] == '*'){
-                oper.erase(oper.begin() + i);
-                num[i] = num[i] * num[i + 1];
-                num.erase(num.begin() + i + 1);
+        stack<int> stack;
+        int num = 0;
+        char lastOper = '+';
+        s += "+";
+        for(auto c : s){
+            if(c == ' ')
+                continue;
+            if(c >= '0' && c <= '9'){
+                num = num * 10 + c - '0';
             }
-            else if(oper[i] == '/'){
-                oper.erase(oper.begin() + i);
-                num[i] = num[i] / num[i + 1];
-                num.erase(num.begin() + i + 1);
+            else{
+                if(lastOper == '+')
+                    stack.push(num);
+                else if(lastOper == '-')
+                    stack.push(-1 * num);
+                else if(lastOper == '*'){
+                    int n = stack.top();
+                    stack.pop();
+                    stack.push(n * num);
+                }
+                else if(lastOper == '/'){
+                    int n = stack.top();
+                    stack.pop();
+                    stack.push(n / num);
+                }
+                lastOper = c;    
+                num = 0;
             }
-            else
-                i++;
+            
         }
-        for(int i = 0; i < oper.size();){
-            if(oper[i] == '+'){
-                oper.erase(oper.begin() + i);
-                num[i] = num[i] + num[i + 1];
-                num.erase(num.begin() + i + 1);
-            }
-            else if(oper[i] == '-'){
-                oper.erase(oper.begin() + i);
-                num[i] = num[i] - num[i + 1];
-                num.erase(num.begin() + i + 1);
-            }
-            else
-                i++;
+        int ret = 0;
+        while(!stack.empty()){
+            ret += stack.top();
+            stack.pop();
         }
-        return num[0];
+        return ret;
     }
 };
