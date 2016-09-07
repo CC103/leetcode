@@ -1,0 +1,29 @@
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        if(s.empty())
+            return s;
+        int max = 0;
+        int start;
+        for(int i = 0; i < s.size(); i++){
+            //assume palindrom is even
+            extend(s, max, start, i, i + 1);
+            //assume palindrom is odd
+            extend(s, max, start, i, i);
+        }
+        return s.substr(start, max);
+    }
+
+    void extend(string &s, int &max, int &start, int left, int right){
+        int len;
+        while(left >= 0 && right < s.size() && s[left] == s[right]){
+            len = right - left + 1;
+            left--;
+            right++;
+        }
+        if(len > max){
+            max = len;
+            start = left + 1;
+        }
+    }
+};
