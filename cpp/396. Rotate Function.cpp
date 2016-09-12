@@ -5,12 +5,16 @@ public:
             return 0;
         int max = INT_MIN;
         int size = A.size();
+        int sum = 0;
+        int powerSum = 0;
         for(int i = 0; i < size; i++){
-            int sum = 0;
-            for(int j = 0; j < size; j++){
-                sum += A[j] * ((j+i) % size);
-            }
-            max = sum > max ? sum : max;
+            sum += A[i];
+            powerSum += A[i] * i;
+        }
+        for(int i = 0; i < size; i++){
+            powerSum -= sum;
+            powerSum += A[i] * size;
+            max = max > powerSum ? max : powerSum;
         }
         return max;
     }
