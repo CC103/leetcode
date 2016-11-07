@@ -1,28 +1,13 @@
 class Solution {
 public:
     int minMoves(vector<int>& nums) {
-        // non-empty
-        // if(nums.empty()) return 0;
-        int max = INT_MIN;
-        int maxIndex = -1;
-        int step = 0;
-        while(!check(nums)){
-            step++;
-            for(int i = 0; i < nums.size(); i++){
-                if(max < nums[i]){
-                    max = nums[i];
-                    maxIndex = i;
-                }
-                if(nums[i] != INT_MAX) nums[i]++;
-            }
-            if(max != INT_MAX) nums[maxIndex]--;
+        if(nums.size() < 2) return 0;
+        int minum = nums[0];
+        long sum = nums[0];
+        for(int i = 1; i < nums.size(); i++){
+            minum = min(nums[i], minum);
+            sum += nums[i];
         }
-        return step;
-    }
-    bool check(vector<int>& v){
-        for(int i = 0; i < v.size() - 1; i++){
-            if(v[i] != v[i + 1]) return false;
-        }
-        return true;
+        return sum - long(minum) * long(nums.size());
     }
 };
