@@ -8,9 +8,7 @@ public:
             if(nums[second] != nums[first]){
                 int next = first + 1;
                 if(second != next){
-                    int p = nums[second];
-                    nums[second] = nums[next];
-                    nums[next] = p;
+                    nums[next] = nums[second];
                 }
                 first++;
                 second++;
