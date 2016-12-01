@@ -1,11 +1,13 @@
 class Solution {
 public:
     int findPeakElement(vector<int>& nums) {
-        int size = nums.size();
-        if(nums.size() == 1) return 0;
-        for(int i = 0; i < size - 1; i++){
-        	if(nums[i] > nums[i + 1]) return i;
-        }
-        return size - 1;
+    	return binarySearch(nums, 0, nums.size() - 1);
+    }
+    int binarySearch(vector<int>& nums, int start, int end){
+    	if(start == end) return start;
+    	int mid1 = (start + end) / 2;
+    	int mid2 = mid1 + 1;
+    	if(nums[mid1] > nums[mid2]) return binarySearch(nums, start, mid);
+    	else return binarySearch(nums, mid2, end);
     }
 };
