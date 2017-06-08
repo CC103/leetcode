@@ -8,6 +8,6 @@ public class Solution {
         // the last index n
         xor ^= i;
 
-        return xor ^ 0;
+        return xor;
     }
 }
