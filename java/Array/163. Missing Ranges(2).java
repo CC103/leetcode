@@ -1,36 +1,31 @@
-// work when upper - lower < Integer.MAX_VALUE
 import java.util.ArrayList;
 import java.util.List;
 
 public class Solution {
     public List<String> findMissingRanges(int[] nums, int lower, int upper) {
-        int hash[] = new int[upper - lower + 1];
-
-        for(int i: nums) {
-            int j = i - lower;
-            if(j >= 0 || j < hash.length) hash[j] = 1;
-        }
-
+        int next = lower;
         List<String> res = new ArrayList<>();
 
-        int l = 0, r = 0;
+        for(int i = 0; i < nums.length; i++) {
+            if(nums[i] < next) continue;
 
-        while(r < hash.length) {
-
-            if(hash[l] == 1) {
-                l++;
-                r = l;
-                continue;
+            if(nums[i] == next) {
+                if(next == Integer.MAX_VALUE) return res;
+                next++;
             }
-
-            if(r == hash.length - 1 || hash[r + 1] == 1) {
-                if(l == r) res.add((l + lower) + "");
-                else res.add((l + lower) + "->" + (r + lower));
-                l = r + 1;
-                r = l;
+            else {
+                if(nums[i] == next + 1) {
+                    res.add(next + "");
+                }
+                else {
+                    res.add(next + "->" + (nums[i] - 1));
+                }
+                if(nums[i] == Integer.MAX_VALUE) return res;
+                next = nums[i] + 1;
             }
-            else r++;
         }
+        if(next == upper) res.add(next + "");
+        else if(next < upper) res.add(next + "->" + upper);
 
         return res;
     }
