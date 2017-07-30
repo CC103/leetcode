@@ -14,30 +14,33 @@ public class Solution {
     public RandomListNode copyRandomList(RandomListNode head) {
         if(head == null) return null;
 
-        RandomListNode l = new RandomListNode(head.label);
-        RandomListNode r = l;
-        RandomListNode nextNode = head.next;
         Map<Integer, RandomListNode> map = new HashMap<>();
-        map.put(l.label, l);
+        RandomListNode newHead = new RandomListNode(head.label);
+        map.put(newHead.label, newHead);
 
+        RandomListNode iter = newHead;
+        RandomListNode nextNode = head.next;
+
+        // build next
         while(nextNode != null) {
-            r.next = new RandomListNode(nextNode.label);
-            r = r.next;
-            map.put(r.label, r);
-
+            iter.next = new RandomListNode(nextNode.label);
+            iter = iter.next;
+            map.put(iter.label, iter);
             nextNode = nextNode.next;
         }
 
-        r = l;
+        // reset
+        iter = newHead;
         nextNode = head;
 
+        // build random
         while(nextNode != null) {
-            if(nextNode.random == null) r.random = null;
-            else r.random = map.get(nextNode.random.label);
-            r = r.next;
+            if(nextNode.random == null) iter.random = null;
+            else iter.random = map.get(nextNode.random.label);
+            iter = iter.next;
             nextNode = nextNode.next;
         }
 
-        return l;
+        return newHead;
     }
 }
