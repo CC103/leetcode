@@ -16,9 +16,7 @@ public class Solution {
         PriorityQueue<ListNode> queue = new PriorityQueue<>(lists.length, new Comparator<ListNode>() {
             @Override
             public int compare(ListNode o1, ListNode o2) {
-                if(o1.val < o2.val) return -1;
-                if(o1.val == o2.val) return 0;
-                return 1;
+                return o1.val - o2.val;
             }
         });
 
@@ -48,7 +46,6 @@ public class Solution {
             System.out.println(head.val);
             head = head.next;
         }
-
 
     }
 }
